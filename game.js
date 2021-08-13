@@ -1,6 +1,9 @@
 const { User, DMChannel } = require('discord.js');
 
 const ROLE_DECK = ['Hitler', 'Fascist', 'Liberal', 'Liberal', 'Liberal', 'Liberal', 'Fascist', 'Liberal', 'Fascist', 'Liberal'];
+const LAW_DECK = new Array(17)
+LAW_DECK.fill('LiberalLaw', 0, 5); 
+LAW_DECK.fill('FascistLaw', 6, 16);
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -17,7 +20,7 @@ function roleDistributor(arrayOfPlayers, arrayOfRoles) {
 
         arrayOfPlayers[i].createDM()
             .then(channel => {
-                channel.send(`Игра началась, твоя роль: ${arrayOfPlayers[i]}`)
+                channel.send(`Игра началась, твоя роль: ${arrayOfPlayers[i].role}`)
             });
       };
 };

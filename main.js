@@ -1,10 +1,11 @@
 const fs = require('fs');
 
 const { Client, Intents, Interaction } = require('discord.js');
-const { token } = require('./config.json');
+const { token } = require('./JSONFiles/config.json');
 
 const { setCommands } = require('./commandSetter.js');
 const { startRegistration } = require('./commands/startRegistration.js')
+const { getActiveSessions, updateActiveSessions } = require('./jsonHandler.js')
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 
@@ -29,12 +30,12 @@ client.on('interactionCreate', async interaction => { // Command handler
     try {
 		switch(interaction.commandName) {
 			case 'shstart':
-				const activeSessions = JSON.parse(fs.readFileSync('./activeSessions.json'))
+				const activeSessions = getActiveSessions();
 
 				if (!activeSessions.includes(interaction.channel.id)) {
 					activeSessions.push(interaction.channel.id);
 
-					fs.writeFileSync('./activeSessions.json', JSON.stringify(activeSessions))
+					updateActiveSessions(activeSessions);
 					startRegistration(interaction);
 				} else {
 					interaction.channel.send({ content: 'Невозможно начать две игры в одном канале', ephemeral: true })

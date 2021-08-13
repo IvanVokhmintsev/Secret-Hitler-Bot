@@ -4,6 +4,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageActionRow, MessageButton } = require('discord.js');
 
 const { game } = require('./../game.js');
+const { getActiveSessions, updateActiveSessions } = require('./../jsonHandler.js')
 
 const row = new MessageActionRow()
 			.addComponents(
@@ -70,10 +71,10 @@ module.exports = {
 				await registrationMessage.channel.send('Недостаточно игроков для начала игры.\nМинимальное количество: 5');
 				await registrationMessage.delete();
 
-				const activeSessions = JSON.parse(fs.readFileSync('./activeSessions.json'))
-						const index = activeSessions.indexOf(interaction.channel.id);
-						activeSessions.splice(index, 1)
-						fs.writeFileSync('./activeSessions.json', JSON.stringify(activeSessions))
+				const activeSessions = getActiveSessions();
+				const index = activeSessions.indexOf(interaction.channel.id);
+				activeSessions.splice(index, 1);
+				updateActiveSessions(activeSessions);
 			} else {
 				await registrationMessage.channel.send('Игра начинается!');
 				await registrationMessage.delete();
