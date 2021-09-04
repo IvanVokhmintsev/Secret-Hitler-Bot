@@ -4,7 +4,7 @@ const { Client, Intents, Interaction } = require('discord.js');
 const { token } = require('./JSONFiles/config.json');
 
 const { setCommands } = require('./commandSetter.js');
-const { commandHandler } = require('./commandHandler.js')
+const { commandHandler } = require('./commandHandler.js');
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 
